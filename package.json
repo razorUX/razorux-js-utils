@@ -1,0 +1,26 @@
+{
+  "name": "razorux-js-utils",
+  "version": "0.0.1",
+  "description": "Useful Javascript utilities. For Node.js or the browser.",
+  "main": "src/main.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/razorUX/razorux-js-utils.git"
+  },
+  "author": "Michoel Samuels",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/razorUX/razorux-js-utils/issues"
+  },
+  "homepage": "https://github.com/razorUX/razorux-js-utils#readme",
+  "dependencies": {
+    "jest": "^29.3.1",
+    "papaparse": "^5.3.2"
+  }
+}
