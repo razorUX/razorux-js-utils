@@ -1,6 +1,6 @@
 {
   "name": "razorux-js-utils",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Useful Javascript utilities. For Node.js or the browser.",
   "main": "src/main.js",
   "directories": {
@@ -21,6 +21,7 @@
   "homepage": "https://github.com/razorUX/razorux-js-utils#readme",
   "dependencies": {
     "jest": "^29.3.1",
+    "lodash.get": "^4.4.2",
     "papaparse": "^5.3.2"
   }
 }

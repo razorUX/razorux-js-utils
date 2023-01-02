@@ -18,8 +18,32 @@ const {
 	dollarsToCents,
 	centsToDollars,
 	
+	invokeMethod,
+	
+	
+	pipe,
+	map,
+	
 	clone,
-	invokeMethod
+	
+	asyncMap,
+	asyncForEach,
+	
+	sendSlackNotification,
+	getCloudWatchLogDeeplink,
+	sendErrorNotification,
+	
+	simpleHash,
+	
+	sleep,
+	
+	parseBoolean,
+	
+	retryable,
+	
+	validateJson,
+	
+	createErrorType
 } = require('../src/main')
 
 
