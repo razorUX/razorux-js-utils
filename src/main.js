@@ -287,6 +287,28 @@ function createErrorType(name, suppressErrorNotification) {
 }
 
 
+const originalConsoleLogFn = console.log;
+const originalConsoleErrorFn = console.error; 
+
+function enableConsoleLogging() {
+	console.log = originalConsoleLogFn;
+	console.error = originalConsoleErrorFn;
+}
+
+function disableConsoleLogging() {
+	console.log = ()=>{};
+	console.error = ()=>{};
+}
+
+
+// const configureFetchMockBehavior = apiMocks => behaviors => {
+// 	Object.entries(behaviors).forEach(([endpoint, statusCode]) => {
+// 		const createMockResponseFn = apiMocks[endpoint][statusCode];
+// 		if(!createMockResponseFn) throw `Unknown mock ${endpoint}.${statusCode}`;
+// 		fetchMock.mock(createMockResponseFn());
+// 	})
+// }
+
 
 exports.readJsonFile = readJsonFile;
 exports.writeJsonFile = writeJsonFile;
@@ -331,3 +353,8 @@ exports.retryable = retryable;
 exports.validateJson = validateJson;
 
 exports.createErrorType = createErrorType;
+
+exports.enableConsoleLogging = enableConsoleLogging;
+exports.disableConsoleLogging = disableConsoleLogging;
+
+// exports.configureFetchMockBehavior = configureFetchMockBehavior;
