@@ -300,6 +300,13 @@ function disableConsoleLogging() {
 	console.error = ()=>{};
 }
 
+// Maybe?
+
+// function permitConsoleLogging = fn => {
+// 	enableConsoleLogging();
+// 	fn();
+// 	disableConsoleLogging();
+// }
 
 // const configureFetchMockBehavior = apiMocks => behaviors => {
 // 	Object.entries(behaviors).forEach(([endpoint, statusCode]) => {

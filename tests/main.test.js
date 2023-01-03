@@ -43,7 +43,10 @@ const {
 	
 	validateJson,
 	
-	createErrorType
+	createErrorType,
+	
+	enableConsoleLogging,
+	disableConsoleLogging
 } = require('../src/main')
 
 
