@@ -8,6 +8,26 @@ const resolveFilePath = filepath => path.resolve(__dirname, filepath)
 
 const map = fn => arr => arr.map(fn);
 
+const { 
+	clamp,
+	isNumber,
+	getRandomIntBetween,
+	createRandomNumberGenerator,
+	cyrb53
+} = require('./numbers.js');
+
+const {
+	asyncMap,
+	asyncForEach,
+	asyncParallelForEach,
+	downto,
+	upto
+} = require('./iteration.js');
+
+const { sleep } = require('./sleep.js');
+
+const { retry } = require('./retry.js');
+
 const readTextFile = pipe(
 	resolveFilePath,
 	fs.readFileSync,
@@ -59,25 +79,6 @@ const normalizeToken = str => {
 	return str.trim().toLowerCase();
 }
 
-async function asyncForEach(array, callback) {
-	for (let index = 0; index < array.length; index++) {
-		await callback(array[index], index, array);
-	}
-}
-
-async function asyncMap(array, callback) {
-	const results = [];
-	for (let index = 0; index < array.length; index++) {
-		results.push(await callback(array[index], index, array));
-	}
-	return results;
-}
-
-
-async function sleep(ms) {
-	return await new Promise(resolve => setTimeout(resolve, ms));
-}
-
 
 const assertObjectMatchesPaths = paths => (args, i) => {
 	if(!args) throw new TypeError(`Missing argument object (Got ${args})`)
@@ -106,18 +107,7 @@ const sortByObjectPath = path => (a,b) => {
 }
 
 
-async function downto(n1, n2, fn) {
-	console.log(`downto(${n1}, ${n2})`);
-	for(i = n1; i >= n2; i -= 1) {
-		if(await fn(i)) break;
-	}
-}
 
-async function upto(n1, n2, fn) {
-	for(i = n1; i <= n2; i += 1) {
-		if(await fn(i)) break;
-	}
-}
 
 function cloneProperties(source, paths) {
 	const result = {}
@@ -205,17 +195,6 @@ function getCloudWatchLogDeeplink() {
 }
 
 
-function cyrb53(str, seed = 0) {
-	let h1 = 0xdeadbeef ^ seed, h2 = 0x41c6ce57 ^ seed;
-	for (let i = 0, ch; i < str.length; i++) {
-			ch = str.charCodeAt(i);
-			h1 = Math.imul(h1 ^ ch, 2654435761);
-			h2 = Math.imul(h2 ^ ch, 1597334677);
-	}
-	h1 = Math.imul(h1 ^ h1>>>16, 2246822507) ^ Math.imul(h2 ^ h2>>>13, 3266489909);
-	h2 = Math.imul(h2 ^ h2>>>16, 2246822507) ^ Math.imul(h1 ^ h1>>>13, 3266489909);
-	return 4294967296 * (2097151 & h2) + (h1>>>0);
-};
 
 
 function simpleHash(str) {
@@ -226,7 +205,7 @@ function simpleHash(str) {
 
 const RANDOM_JITTER_MS_MAX = 100; // Totally arbitrary. We just want randomize the timing a little to avoid deadlocks 
 
-const retryable = async ({fn, retryCount = 3, retryTimeoutMs = 300, addRandomDelay = true}) => {
+const retryable = async ({fn, retryCount = 3, timeout = 300, addRandomDelay = true}) => {
 	let retriesRemaining = retryCount;
 	
 	let response, error;
@@ -246,7 +225,7 @@ const retryable = async ({fn, retryCount = 3, retryTimeoutMs = 300, addRandomDel
 			console.error(e);
 			retriesRemaining -= 1;
 			console.log(`🔁❗️ Retry fail. Sleeping.`);
-			const sleepMs = retryTimeoutMs + (addRandomDelay ? getRandomIntBetween(0, RANDOM_JITTER_MS_MAX) : 0);
+			const sleepMs = timeout + (addRandomDelay ? getRandomIntBetween(0, RANDOM_JITTER_MS_MAX) : 0);
 			await sleep(overridedSleepMs ? overridedSleepMs : sleepMs);
 		}
 	}
@@ -259,11 +238,9 @@ const retryable = async ({fn, retryCount = 3, retryTimeoutMs = 300, addRandomDel
 }
 
 
-function getRandomIntBetween(min, max) {
-	min = Math.ceil(min);
-	max = Math.floor(max);
-	return Math.floor(Math.random() * (max - min + 1) + min); 
-}
+
+
+
 
 function validateJson(json, requiredPaths) {
 	requiredPaths.forEach(path => {
@@ -296,6 +273,10 @@ function enableConsoleLogging() {
 }
 
 function disableConsoleLogging() {
+	// if(process.env.CI) {
+	// 	console.log('🤖 CI platform detected. Will not disable console logging.')
+	// 	return;
+	// }
 	console.log = ()=>{};
 	console.error = ()=>{};
 }
@@ -364,4 +345,9 @@ exports.createErrorType = createErrorType;
 exports.enableConsoleLogging = enableConsoleLogging;
 exports.disableConsoleLogging = disableConsoleLogging;
 
+exports.retry = retry;
+exports.clamp  = clamp;
+exports.isNumber = isNumber;
+exports.createRandomNumberGenerator = createRandomNumberGenerator;
+exports.getRandomIntBetween = getRandomIntBetween;
 // exports.configureFetchMockBehavior = configureFetchMockBehavior;
