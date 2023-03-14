@@ -58,9 +58,28 @@ createErrorType(name, suppressErrorNotification);
 
 enableConsoleLogging();
 disableConsoleLogging();
+
+base64ToString,
+stringToBase64
 ```
 
-## Retry
+## Modules
+
+
+### Base64
+
+A pair of functions to encode/decode base64 strings.
+Works exactly as you'd expect.
+
+```javascript
+const b64 = stringToBase64("Just you wait, Henry Higgins, just you wait...")
+// => "SnVzdCB5b3Ugd2FpdCwgSGVucnkgSGlnZ2lucywganVzdCB5b3Ugd2FpdC4uLg=="
+
+base64ToString(b64)
+// # => "Just you wait, Henry Higgins, just you wait..."
+```
+
+### Retry
 
 This package includes a powerful retry function for retrying pretty much any function, including async promises.
 

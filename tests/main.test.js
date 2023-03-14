@@ -53,7 +53,10 @@ const {
 	clamp,
 	isNumber,
 	getRandomIntBetween,
-	createRandomNumberGenerator
+	createRandomNumberGenerator,
+	
+	base64ToString,
+	stringToBase64
 } = require('../src/main')
 
 
@@ -166,6 +169,28 @@ describe('getRandomIntBetween', () => {
 	
 });
 
+describe('base64', () => {
+	
+	describe('base64ToString', () => {
+	
+		test('should decode base64 strings', async () => {
+			const input = "SnVzdCB5b3Ugd2FpdCwgSGVucnkgSGlnZ2lucywganVzdCB5b3Ugd2FpdC4uLg==";
+			const expected = "Just you wait, Henry Higgins, just you wait..."
+			const actual = base64ToString(input);
+			
+			expect(actual).toBe(expected);
+		});
+		
+		test('should encode base64 strings', async () => {
+			const input = "Just you wait, Henry Higgins, just you wait...";
+			const expected = "SnVzdCB5b3Ugd2FpdCwgSGVucnkgSGlnZ2lucywganVzdCB5b3Ugd2FpdC4uLg==";
+			const actual = stringToBase64(input);
+			
+			expect(actual).toBe(expected);
+		});
+		
+	});
+});
 
 
 describe('loadEnvVars', () => {

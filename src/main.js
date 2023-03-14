@@ -43,6 +43,10 @@ const { retry } = require('./retry.js');
 
 const { MILLISECONDS } = require('./timeQuantities.js')
 
+const { 
+	base64ToString,
+	stringToBase64
+} = require('./base64.js');
 
 // Import env vars from .env.json
 
@@ -339,3 +343,6 @@ exports.createRandomNumberGenerator = createRandomNumberGenerator;
 exports.getRandomIntBetween = getRandomIntBetween;
 // exports.configureFetchMockBehavior = configureFetchMockBehavior;
 exports.MILLISECONDS = MILLISECONDS;
+
+exports.base64ToString = base64ToString;
+exports.stringToBase64 = stringToBase64;
