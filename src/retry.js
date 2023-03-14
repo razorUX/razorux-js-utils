@@ -33,26 +33,6 @@ Features:
 
 const now = () => new Date();
 
-function checkForRetryLimit({retriesElapsed, maxRetryCount, error}) {
-	if(retriesElapsed >= maxRetryCount) {
-		console.error(`Retry limit reached. (Tried ${retriesElapsed} times; max is ${maxRetryCount}).\n ${ error }`);
-		console.error(error);
-		throw new RetryLimitReachedError({
-			message: `Retry limit reached. (Tried ${retriesElapsed} times; max is ${maxRetryCount}).`,
-			error
-		});
-	}
-}
-
-function checkForGlobalTimeout({ retryTimeoutTimestamp,  timeout, startTimestamp}) {
-	if(now() > retryTimeoutTimestamp) {
-		const elapsedTimeMs = now() - startTimestamp;
-		throw new RetryTimeoutError({ 
-			message: `Retry timeout of ${timeout}ms exceeded (Total elapsed time: ${elapsedTimeMs}ms)`
-		});
-	}
-}
-
 async function retry(fn, options) {	
 	if(!options) options = {};
 	
@@ -69,7 +49,7 @@ async function retry(fn, options) {
 		minJitterMs = 0,
 		maxJitterMs = 50,
 		jitterRandomSeed,
-		debugLogging = true,
+		debugLogging = false,
 	} = options;
 		
 	const log = str => { if(debugLogging) console.log(str) };
@@ -136,6 +116,26 @@ async function retry(fn, options) {
 	
 	log(`✅ Callback success. Exiting retry.`)	
 	return results;
+}
+
+function checkForRetryLimit({retriesElapsed, maxRetryCount, error}) {
+	if(retriesElapsed >= maxRetryCount) {
+		console.error(`Retry limit reached. (Tried ${retriesElapsed} times; max is ${maxRetryCount}).\n ${ error }`);
+		console.error(error);
+		throw new RetryLimitReachedError({
+			message: `Retry limit reached. (Tried ${retriesElapsed} times; max is ${maxRetryCount}).`,
+			error
+		});
+	}
+}
+
+function checkForGlobalTimeout({ retryTimeoutTimestamp,  timeout, startTimestamp}) {
+	if(now() > retryTimeoutTimestamp) {
+		const elapsedTimeMs = now() - startTimestamp;
+		throw new RetryTimeoutError({ 
+			message: `Retry timeout of ${timeout}ms exceeded (Total elapsed time: ${elapsedTimeMs}ms)`
+		});
+	}
 }
 
 exports.retry = retry;

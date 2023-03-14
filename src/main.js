@@ -3,10 +3,23 @@ const path = require("path");
 const Papa = require('papaparse');
 const get = require("lodash.get");
 
-const pipe = (...fns) => x => fns.reduce((y, f) => f(y), x);
-const resolveFilePath = filepath => path.resolve(__dirname, filepath)
+const {
+	pipe,
+	map,
+	clone,
+	invokeMethod
+} = require('./util.js');
 
-const map = fn => arr => arr.map(fn);
+const {
+	resolveFilePath,
+	readTextFile,
+	
+	readCsvFile,
+	writeCsvFile,
+	
+	readJsonFile,
+	writeJsonFile,
+} = require('./files.js'); 
 
 const { 
 	clamp,
@@ -28,31 +41,8 @@ const { sleep } = require('./sleep.js');
 
 const { retry } = require('./retry.js');
 
-const readTextFile = pipe(
-	resolveFilePath,
-	fs.readFileSync,
-	buffer => buffer.toString(),
-);
+const { MILLISECONDS } = require('./timeQuantities.js')
 
-const readJsonFile = pipe(
-	readTextFile,
-	JSON.parse
-)
-
-function readCsvFile(path) {
-	return Papa.parse(readTextFile(path), {
-		header: true,
-		dynamicTyping: true
-	}).data;
-}
-
-function writeCsvFile({path, data}) {
-	return fs.writeFileSync(path, Papa.unparse(data));
-}
-
-function writeJsonFile({path, data}) {
-	return fs.writeFileSync(path, JSON.stringify(data || {}));
-}
 
 // Import env vars from .env.json
 
@@ -107,8 +97,6 @@ const sortByObjectPath = path => (a,b) => {
 }
 
 
-
-
 function cloneProperties(source, paths) {
 	const result = {}
 	paths.forEach(key => {
@@ -131,8 +119,7 @@ function centsToDollars(cents) {
 	return cents / CENTS_IN_DOLLAR;
 }
 
-const clone = o => JSON.parse(JSON.stringify(o))
-const invokeMethod = functionName => obj => obj[functionName]();
+
 
 
 
@@ -351,3 +338,4 @@ exports.isNumber = isNumber;
 exports.createRandomNumberGenerator = createRandomNumberGenerator;
 exports.getRandomIntBetween = getRandomIntBetween;
 // exports.configureFetchMockBehavior = configureFetchMockBehavior;
+exports.MILLISECONDS = MILLISECONDS;

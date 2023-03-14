@@ -1,6 +1,6 @@
 {
   "name": "razorux-js-utils",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "Useful Javascript utilities. For Node.js or the browser.",
   "main": "src/main.js",
   "directories": {
