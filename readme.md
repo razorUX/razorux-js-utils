@@ -98,7 +98,7 @@ This package includes a powerful retry function for retrying pretty much any fun
 
 ```javascript
 const {	
-	retry
+  retry
 } = require('main');
 
 function myAsyncFunction() { ... }
@@ -122,6 +122,7 @@ await retry(myAsyncFunction, {
 // Full options
 await retry(
 	myAsyncFunction,
+	
 	{ 
 		
 		// A function to retry
@@ -140,7 +141,7 @@ await retry(
 		// If, the amount of retries are exhausted, will throw a RetryLimitReachedError,
 		// with the original error wrapped inside it
 		
-		timeout = 1000,
+		timeout: 1000,
 		// Amount of milliseconds to wait between giving up.
 		// If the timeout expires will throw a RetryTimeoutError, with the original error wrapped inside it.
 		// Example: "Retry this network request until 5 minutes have passed"
@@ -153,7 +154,7 @@ await retry(
 		// Amount of milliseconds to wait between retries.
 		// If `backoff` is true, this will be ignored
 		
-		backoff = false,
+		backoff: false,
 		// Wait exponentially more between retries
 		// i.e. 1000ms, 2000ms, 4000ms, 8000ms, etc.
 		// Perfect for rate-limited APIs

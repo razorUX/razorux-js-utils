@@ -1,11 +1,11 @@
 function createErrorType(name, suppressErrorNotification) {
-	const errorFn =  function ({message, error}) {
+	const errorFn =  function (args) {
 		this.name = name;
-		this.message = message;
+		this.message = args?.message || name;
 		this.deliberate = true;
 		this.suppressErrorNotification = suppressErrorNotification || false;
 		this.exposeErrorMessageToClient = true;
-		this.internalError = error;
+		this.internalError = args?.error;
 	}
 	errorFn.prototype = Error.prototype;
 	return errorFn;
