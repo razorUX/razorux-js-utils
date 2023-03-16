@@ -318,13 +318,18 @@ describe('retry', () => {
 				actualRunCount += 1 
 				if(actualRunCount <= 9)  throw new Error('Testing retry');
 			};
-						
-			await retry(fn, {
-				maxRetryCount: 10,
-				onError: e => {
-					return true;
-				}
-			});
+			
+			try {
+				await retry(fn, {
+					maxRetryCount: 10,
+					onError: e => {
+						return true;
+					}
+				});
+			} catch(e) {
+				expect(e.name).toBe('Error');
+				expect(e.message).toBe('Testing retry');
+			}
 			
 			expect(actualRunCount).toBe(1);
 		});

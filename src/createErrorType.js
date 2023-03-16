@@ -6,6 +6,7 @@ function createErrorType(name, suppressErrorNotification) {
 		this.suppressErrorNotification = suppressErrorNotification || false;
 		this.exposeErrorMessageToClient = true;
 		this.internalError = args?.error;
+		this.metadata = args?.metadata;
 	}
 	errorFn.prototype = Error.prototype;
 	return errorFn;

@@ -132,7 +132,9 @@ await retry(
 		onError = ()=>{
 			// Optional. 
 			// Will be passed every exception captured from `fn`
+			
 			// You can return `true` to break out of the retry block early
+			// If you do so, `retry` will throw the error instead of retrying
 		},
 		
 		

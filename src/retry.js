@@ -76,7 +76,7 @@ async function retry(fn, options) {
 			console.error(e);
 			
 			const shouldBreak = await onError(e, retriesElapsed);
-			if(shouldBreak) return;
+			if(shouldBreak) throw e;
 			
 			checkForRetryLimit({ retriesElapsed, maxRetryCount, error: e });
 			checkForGlobalTimeout({ retryTimeoutTimestamp,  timeout, startTimestamp});
