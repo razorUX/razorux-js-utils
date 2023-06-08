@@ -48,6 +48,18 @@ const {
 	stringToBase64
 } = require('./base64.js');
 
+// Caching
+
+const {
+	persistToCache,
+	retrieveFromCache
+} = require('./cache');
+
+
+const {
+	validateEnvVars
+} = require('./envVars');
+
 // Import env vars from .env.json
 
 function loadEnvVars(path) {
@@ -57,11 +69,6 @@ function loadEnvVars(path) {
 	});
 }
 
-function validateEnvVars(envVars) {
-	envVars.forEach(envVar => {
-		if(!process.env[envVar]) throw `Missing required env var "${envVar}"`;
-	})
-}
 
 function ensureDirExists(path) {
 	if(!fs.existsSync(path)) fs.mkdirSync(path)
@@ -346,3 +353,6 @@ exports.MILLISECONDS = MILLISECONDS;
 
 exports.base64ToString = base64ToString;
 exports.stringToBase64 = stringToBase64;
+
+exports.persistToCache = persistToCache;
+exports.retrieveFromCache = retrieveFromCache;

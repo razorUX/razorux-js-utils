@@ -187,6 +187,47 @@ await retry(
 }) 
 ```
 
+### Caching with Memcachier
+
+Dead-easy temporary JSON storage in Memcache.
+
+> You'll need to sign up for a [free Memcachier account here](https://www.memcachier.com).
+
+First, make sure you've set the following environment variables:
+
+```bash
+MEMCACHIER_SERVER,
+MEMCACHIER_USERNAME
+MEMCACHIER_PASSWORD
+
+# Optional. Expire cached objects after this timeout.
+# Default is 12 hours
+CACHE_EXPIRATION_TIMEOUT_SECONDS = 60 * 60; // 1 hour
+
+# Optional. Shows debug logging.
+# Defaults to false
+MEMCACHE_LOGGING_ENABLED=true
+```
+
+Usage:
+
+```javascript
+
+// JSON to store in the cache
+const data = { text: "Hello World!", passenger: "Mr. Frumble" }
+const key = "top_secret_key"
+
+const cache = createCacheClient();
+
+const storageResponse = await cache.persist(key, data);
+// => true
+
+const retrieveResponse = await cache.retrieve(key);	
+// => { text: 'Hello World!', passenger: 'Mr. Frumble' }
+```
+
+> JSON is automatically serialized and deserialized
+
 
 ## Thank You
 
