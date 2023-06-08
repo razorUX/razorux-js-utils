@@ -51,8 +51,7 @@ const {
 // Caching
 
 const {
-	persistToCache,
-	retrieveFromCache
+	createCacheClient
 } = require('./cache');
 
 
@@ -354,5 +353,4 @@ exports.MILLISECONDS = MILLISECONDS;
 exports.base64ToString = base64ToString;
 exports.stringToBase64 = stringToBase64;
 
-exports.persistToCache = persistToCache;
-exports.retrieveFromCache = retrieveFromCache;
+exports.createCacheClient = createCacheClient;
