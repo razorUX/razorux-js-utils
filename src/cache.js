@@ -18,12 +18,8 @@ const EXPIRATION_CONFIG = {
 	expires: CACHE_EXPIRATION_TIMEOUT_SECONDS
 }
 
-// Error definitions
-
-const MemcacheKeyNotFoundError = createErrorType('MemcacheKeyNotFoundError');
 
 // Runtime
-
 
 
 // Functions
@@ -36,15 +32,40 @@ function createCacheClient() {
 		memcacheClient,
 		persist,
 		retrieve,
+		disconnect
 	}
 }
 
-async function persist(key, json) {
+async function wrap({key, onCacheMiss, cacheTtlSeconds = 60}) {
+	log(`🌀 Cache Wrap (Key: ${key})`);
+	
+	try {
+	let response = await retrieve(key);
+	log("🎯 Cache hit");
+	return response;
+} catch(error) {
+	if(error.name !== 'MemcacheKeyNotFoundError') throw error;
+	
+	log(`❗ Cache miss!`);
+	
+	const value = await onCacheMiss();
+	log(`🐬 Caching response...`);
+	await persist(key, value, cacheTtlSeconds);
+	
+}
+
+	
+	return this.shouldCompressValues ? await compressedBase64ToJson(response) : response;
+}
+
+async function persist(key, json, cacheTtlSeconds) {
 	
 	log("🌀 Persisting to cache...");
 	const serializedData = serialize(json);
 	log(`[${key}] => ${serializedData}`);
-	const response = await this.memcacheClient.set( key, serializedData, EXPIRATION_CONFIG);
+	const response = await this.memcacheClient.set( key, serializedData, { 
+		expires: cacheTtlSeconds || CACHE_EXPIRATION_TIMEOUT_SECONDS
+	});
 	log("✅ Done");
 	return response;
 }
@@ -55,9 +76,9 @@ async function retrieve(key) {
 	log(`🌀 Retrieving from cache... (${key})`);
 	const response = await this.memcacheClient.get(key);
 		
-	if(response == null) throw new MemcacheKeyNotFoundError({ metadata: { key }});
-	
 	const { value, flags } = response;
+	
+	if(value == null) return null;
 	
 	const serializedData = value.toString();
 	
@@ -67,6 +88,10 @@ async function retrieve(key) {
 	const results =  deserialize(serializedData);
 	log("✅ Done");
 	return results;
+}
+
+async function disconnect() {
+	await this.memcacheClient.quit();
 }
 
 // Helpers

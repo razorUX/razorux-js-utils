@@ -4,24 +4,28 @@ const { createCacheClient, persistToCache, retrieveFromCache } = require('./src/
 
 async function main () {
 
-	console.log("Storing data to cache...");
-	
-	const data = {
-		text: "Hello World!",
-		passenger: "Mr. Frumble"
-	}
-	
-	const key = "top_secret_key"
-	
+	// console.log("Storing data to cache...");
+	// 
+	// const data = {
+	// 	text: "Hello World!",
+	// 	passenger: "Mr. Frumble"
+	// }
+	// 
+	// const key = "top_secret_key"
+	// 
 	const cache = createCacheClient();
+	// 
+	// const storageResponse = await cache.persist(key, data);
+	// 
+	// console.log(storageResponse);
 	
-	const storageResponse = await cache.persist(key, data);
-	
-	console.log(storageResponse);
+	const key = '12275357';
 	
 	const retrieveResponse = await cache.retrieve(key);	
 	
 	console.log(retrieveResponse);
+	
+	cache.disconnect();
 }
 
 main();
