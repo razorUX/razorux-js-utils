@@ -66,6 +66,13 @@ stringToBase64
 ## Modules
 
 
+### Insecure Random
+
+```
+const n = randomNumberBetween(0, 42);
+# => a random number within range, **inclusive**
+```
+
 ### Base64
 
 A pair of functions to encode/decode base64 strings.
@@ -121,69 +128,69 @@ await retry(myAsyncFunction, {
 
 // Full options
 await retry(
-	myAsyncFunction,
+myAsyncFunction,
+
+{ 
+
+// A function to retry
+// Every time an exception is thrown, it will be
+// retried, subject to the following parameters
+
+onError = ()=>{
+	// Optional. 
+	// Will be passed every exception captured from `fn`
 	
-	{ 
-		
-		// A function to retry
-		// Every time an exception is thrown, it will be
-		// retried, subject to the following parameters
-		
-		onError = ()=>{
-			// Optional. 
-			// Will be passed every exception captured from `fn`
-			
-			// You can return `true` to break out of the retry block early
-			// If you do so, `retry` will throw the error instead of retrying
-		},
-		
-		
-		maxRetryCount: Number.MAX_SAFE_INTEGER
-		// Amount of times to retry before giving up
-		// If, the amount of retries are exhausted, will throw a RetryLimitReachedError,
-		// with the original error wrapped inside it
-		
-		timeout: 1000,
-		// Amount of milliseconds to wait between giving up.
-		// If the timeout expires will throw a RetryTimeoutError, with the original error wrapped inside it.
-		// Example: "Retry this network request until 5 minutes have passed"
-		
-		// Note:
-		// If maxRetryCount and timeout are both set, the operation will abort
-		// with whichever one occurs sooner
-		
-		retryDelayMs: 50,
-		// Amount of milliseconds to wait between retries.
-		// If `backoff` is true, this will be ignored
-		
-		backoff: false,
-		// Wait exponentially more between retries
-		// i.e. 1000ms, 2000ms, 4000ms, 8000ms, etc.
-		// Perfect for rate-limited APIs
-		
-		factor: 2,
-		// Exponent to use for backoff
-		
-		minRetryDelay: 0,
-		// The initial delay value in milliseconds
-		
-		maxRetryDelay: 1000 * 60 * 2, // Two minutes
-		// The maximum delay value in milliseconds.
-		// You should always set this to prevent the retry delay from becoming really huge
-		
-		
-		jitter: false,
-		// Add a randomized amount to the delay
-		// This is important to avoid deadlock if many instances of your program will be trying to access the same resource at once
-		
-		minJitterMs:  0,
-		maxJitterMs:  50,
-		// Min and max jitter values
-		// Max doesn't need to be very large, just enough to break deadlock
-		
-		debugLogging: false 
-		// Print comprehensive internal logs to the console
-		// Great for debugging
+	// You can return `true` to break out of the retry block early
+	// If you do so, `retry` will throw the error instead of retrying
+},
+
+
+maxRetryCount: Number.MAX_SAFE_INTEGER
+// Amount of times to retry before giving up
+// If, the amount of retries are exhausted, will throw a RetryLimitReachedError,
+// with the original error wrapped inside it
+
+timeout: 1000,
+// Amount of milliseconds to wait between giving up.
+// If the timeout expires will throw a RetryTimeoutError, with the original error wrapped inside it.
+// Example: "Retry this network request until 5 minutes have passed"
+
+// Note:
+// If maxRetryCount and timeout are both set, the operation will abort
+// with whichever one occurs sooner
+
+retryDelayMs: 50,
+// Amount of milliseconds to wait between retries.
+// If `backoff` is true, this will be ignored
+
+backoff: false,
+// Wait exponentially more between retries
+// i.e. 1000ms, 2000ms, 4000ms, 8000ms, etc.
+// Perfect for rate-limited APIs
+
+factor: 2,
+// Exponent to use for backoff
+
+minRetryDelay: 0,
+// The initial delay value in milliseconds
+
+maxRetryDelay: 1000 * 60 * 2, // Two minutes
+// The maximum delay value in milliseconds.
+// You should always set this to prevent the retry delay from becoming really huge
+
+
+jitter: false,
+// Add a randomized amount to the delay
+// This is important to avoid deadlock if many instances of your program will be trying to access the same resource at once
+
+minJitterMs:  0,
+maxJitterMs:  50,
+// Min and max jitter values
+// Max doesn't need to be very large, just enough to break deadlock
+
+debugLogging: false 
+// Print comprehensive internal logs to the console
+// Great for debugging
 }) 
 ```
 

@@ -37,6 +37,10 @@ const {
 	upto
 } = require('./iteration.js');
 
+// Randomness
+
+const { randomNumberBetween } = require('./random.js'); 
+
 const { sleep } = require('./sleep.js');
 
 const { retry } = require('./retry.js');
@@ -54,6 +58,7 @@ const {
 	createCacheClient
 } = require('./cache');
 
+// Env vars
 
 const {
 	validateEnvVars
@@ -354,3 +359,4 @@ exports.base64ToString = base64ToString;
 exports.stringToBase64 = stringToBase64;
 
 exports.createCacheClient = createCacheClient;
+exports.randomNumberBetween = randomNumberBetween;

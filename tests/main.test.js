@@ -56,7 +56,9 @@ const {
 	createRandomNumberGenerator,
 	
 	base64ToString,
-	stringToBase64
+	stringToBase64,
+	
+	randomNumberBetween
 } = require('../src/main')
 
 
@@ -202,3 +204,15 @@ describe('loadEnvVars', () => {
 		}).not.toThrow();
 	});
 })
+
+describe('random', () => {
+
+	test('randomNumberBetween', async () => {
+		const min = 2;
+		const max = 4096;
+		const expected = randomNumberBetween(min, max)
+		expect(expected).toBeGreaterThan(min);
+		expect(expected).toBeLessThan(max);
+	});
+	
+});
