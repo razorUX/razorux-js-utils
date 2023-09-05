@@ -6,7 +6,7 @@ const get = require("lodash.get");
 const {
 	pipe,
 	map
-} = require('./util.js');
+} = require('./pipe.js');
 
 const resolveFilePath = filepath => path.resolve(__dirname, filepath)
 

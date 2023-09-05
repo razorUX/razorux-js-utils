@@ -54,8 +54,11 @@ centsToDollars(number);
 invokeMethod(Function);
 
 
-pipe(<Array Function>);
-map(Array, Function);
+pipe([ function() {}, function() {} ]);
+map([], function() {});
+reduce([], function() {});
+objectToEntries({});
+entriesToObject([key, value]);
 
 clone(Object)
 

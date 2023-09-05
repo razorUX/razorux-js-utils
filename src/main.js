@@ -28,9 +28,12 @@ const {
 const {
 	pipe,
 	map,
+	reduce,
 	clone,
-	invokeMethod
-} = require('./util.js');
+	invokeMethod,
+	objectToEntries,
+	entriesToObject
+} = require('./pipe.js');
 
 const {
 	resolveFilePath,
@@ -359,7 +362,10 @@ exports.centsToDollars = centsToDollars;
 
 exports.pipe = pipe;
 exports.map = map;
+exports.reduce = reduce;
 exports.invokeMethod = invokeMethod;
+exports.objectToEntries = objectToEntries;
+exports.entriesToObject = entriesToObject;
 
 exports.clone = clone;
 
