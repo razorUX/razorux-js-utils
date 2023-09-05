@@ -1,6 +1,28 @@
 # razorUX JS Utils
 [![CI](https://github.com/razorUX/razorux-js-utils/actions/workflows/test.yml/badge.svg)](https://github.com/razorUX/razorux-js-utils/actions/workflows/test.yml)
 [![npm version](https://badge.fury.io/js/razorux-js-utils.svg)](https://badge.fury.io/js/razorux-js-utils)
+[![Downloads](https://img.shields.io/npm/dw/razorux-js-utils)](https://npmtrends.com/razorux-js-utils)
+[![Security](https://snyk.io/test/github/razorUX/razorux-js-utils/badge.svg)](https://snyk.io/test/github/razorUX/razorux-js-utils)
+
+My collection of custom Node.js utilities.
+Small useful, and constantly improved!
+
+* Working with environment variables
+* Read/write files: plaintext, CSV, and JSON 
+* Normalize tokens
+* Dollar /cents conversion
+* Functional `pipe` methods
+* Object cloning
+* Iteration syntax sugar
+* Sleep
+* Enable / disable console
+* Base64 encode/decode
+* Insecure random numbers
+* Retry network errors
+* Type Assertions
+* Slack messaging
+* JSON caching with Memcachier
+
 
 ## Installation
 
@@ -235,6 +257,45 @@ const retrieveResponse = await cache.retrieve(key);
 
 > JSON is automatically serialized and deserialized
 
+### Type Assertions
+
+A collection of type assertions, if you need them.
+* `assert*` functions throw an error if the value doesn't match. A match returns nothing. (The default error is `TypeError`. A custom error class can be used instead. )
+* `is*` functions return `true` or `false`.
+
+> You can optionally customize the name of the error in the error message, and the error message class.
+
+```javascript
+const arg = 42;
+
+// Basic usage
+assertTypeString(arg);
+// => throws TypeError "Expected Argument to be a String. (Got: 42. typeof: number)"
+
+
+// Customized errors
+assertTypeString(arg, 'Input String', MyInputStringError);
+// => throws MyInputStringError "Expected Input String to be a String. (Got: 42. typeof: number)"
+
+```
+
+Included assertions:
+
+```javascript
+assertDefined(arg, argName, customErrorClass);
+assertTruthy(arg, argName, customErrorClass);
+
+assertTypeString(arg, argName, customErrorClass);
+assertTypeNumber(arg, argName, customErrorClass);
+assertTypeObject(arg, argName, customErrorClass);
+assertTypeArray(arg, argName, customErrorClass);
+
+isTypeof(value, typeString) //  i.e. isTypeof(42, 'number') -> true
+isObject(arg);
+isArray(arg);
+isNull(arg);
+isUndefined(arg)
+```
 
 ## Thank You
 

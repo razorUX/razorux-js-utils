@@ -3,6 +3,28 @@ const path = require("path");
 const Papa = require('papaparse');
 const get = require("lodash.get");
 
+// Type Assertions
+
+const {
+	assertDefined,
+	assertTruthy,
+	
+	assertTypeString,
+	assertTypeNumber,
+	assertTypeObject,
+	assertTypeArray,
+	
+	assert,
+	
+	isTypeof,
+	isObject,
+	isArray,
+	isNull,
+	isUndefined
+} = require('./assert.js');
+
+// Pipe functions
+
 const {
 	pipe,
 	map,
@@ -299,6 +321,22 @@ function disableConsoleLogging() {
 // 	})
 // }
 
+
+exports.assertDefined = assertDefined;
+exports.assertTruthy = assertTruthy;
+
+exports.assertTypeString = assertTypeString;
+exports.assertTypeNumber = assertTypeNumber;
+exports.assertTypeObject = assertTypeObject;
+exports.assertTypeArray = assertTypeArray;
+
+exports.assert = assert;
+
+exports.isTypeof = isTypeof;
+exports.isObject = isObject;
+exports.isArray = isArray;
+exports.isNull = isNull;
+exports.isUndefined = isUndefined;
 
 exports.readJsonFile = readJsonFile;
 exports.writeJsonFile = writeJsonFile;
